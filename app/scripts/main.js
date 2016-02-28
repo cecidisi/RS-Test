@@ -21,12 +21,36 @@
 
     var conds = [], curCond = 0;
     var session = [], curRatings ={}, user = {};
+    var msg = {
+        'women in workforce': [
+            "Participation of women in the workforce",
+            "Gender wage gap",
+            "Women in the workforce earning wages or a salary are part of a modern phenomenon, one that developed at the same time as the growth of paid employment for men; yet women have been challenged by inequality in the workforce."
+        ],
+        'robot': [
+            "Autonomous robots",
+            "Human-robot interaction",
+            "The branch of technology that deals with the design, construction, operation, and application of robots, as well as computer systems for their control, sensory feedback, and information processing is robotics"
+        ],
+        'augmented reality': [
+            "Virtual environments",
+            "Context-based object recognition",
+            "Augmented reality (AR) is a live direct or indirect view of a physical, real-world environment whose elements are augmented (or supplemented) by computer-generated sensory input such as sound, video, graphics or GPS data"
+        ],
+        'circular economy': [
+            "Waste management",
+            "Industrial Symbiosis in China",
+            "A circular economy naturally encompasses a shift from fossil fuels to the use of renewable energy, the eradication of waste and the role of diversity as a characteristic of resilient and productive systems"
+        ]
+    };
 
 
     var loadRecs = function(cond){
         var list = recs[cond.topic][cond.task].recs[cond.rs];
         $list.empty();
         $docViewer.find('.panel-body').empty();
+        $('#p-topic').html(cond.topic);
+        $('#p-query').html(msg[cond.topic][cond.task-1]);
 
         list.forEach(function(rec, i){
 
@@ -76,11 +100,14 @@
         var keys = Object.keys(arr[0]),
             csv = keys.join(',') + '\n';
 
-        arr.forEach(function(a){
+        for(var i=0; i<arr.length; ++i) {
             var values = [];
-            keys.forEach(function(key){ values.push(a[key]); });
-            csv += values.join(',') + '\n';
-        });
+            //console.log(arr[i]);
+            for(var k=0; k< keys.length;++k) {
+                values.push(arr[i][keys[k]]);
+            }
+            csv += (values.join(',') + '\n');
+        }
         return csv;
     };
 
@@ -90,48 +117,39 @@
         evt.stopPropagation();
         if(++curCond < conds.length) {
             console.log(curRatings);
-//            if(Object.keys(curRatings).length < 5)
-//                return alert('Some documents have not been rated!');
+            if(Object.keys(curRatings).length < 5)
+                return alert('Some documents are not rated yet!');
 
-            Object.keys(curRatings).forEach(function(docId){
-                var obj = $.extend(user, conds[curCond-1], {
-                    doc: docId,
-                    pos: curRatings[docId].pos,
-                    rating: curRatings[docId].rating
-                });
-                session.push(obj);
-            });
-
-            var host = 'http://localhost/RS-Test2/server/';
-            $.post(host + 'save.php', { data: getCsv(session), ext: 'csv'})
-                .done(function(response){
-                console.log(response);
-                window.location.href = 'finished.html';
-            }).fail(function(jqXHR){
-                console.log('post failed');
-                console.log(jqXHR);
-                if(confirm('Session data could not be saved.<br>Please download and send to cdisciascio@know-center.at')) {
-                    $.post(host + 'download.php', { filename: 'session.csv', content: getCsv(session) })
-                     //.done(function(){ window.location.href = 'finished.html'; });
-                }
-            });
+            var docIDs = Object.keys(curRatings);
+            for(var i=0; i<docIDs.length; ++i ) {
+                session.push($.extend(true, {
+                    doc: docIDs[i],
+                    pos: curRatings[docIDs[i]].pos,
+                    rating: curRatings[docIDs[i]].rating
+                }, conds[curCond-1], user ));
+            }
 
             curRatings = {};
             loadRecs(conds[curCond]);
         }
         else {
 //            var host = '../server/';
-            var host = 'http://localhost/RS-Test2/server/';
-            $.post(host + 'save.php', { data: getCsv(session), ext: 'csv'})
-            .done(function(response){
+            var host = 'http://localhost/RS-Test/server/';
+            console.log(getCsv(session));
+            $.ajax({
+                method: 'POST',
+                url: host + 'save.php',
+                data: { content: getCsv(session) }
+            }).done(function(response){
                 console.log(response);
                 window.location.href = 'finished.html';
             }).fail(function(jqXHR){
                 console.log('post failed');
                 console.log(jqXHR);
-                if(confirm('Session data could not be saved.<br>Please download and send to cdisciascio@know-center.at')) {
-                    $.post(host + 'download.php', { filename: 'session.csv', content: getCsv(session) })
-                     .complete(function(){ window.location.href = 'finished.html'; });
+                if(confirm('Session data could not be saved. Please download and send to cdisciascio@know-center.at')) {
+                    var date = new Date(),
+                        timestamp = date.getFullYear() + '-' + (parseInt(date.getMonth()) + 1) + '-' + date.getDate() + '_' + date.getHours() + '.' + date.getMinutes() + '.' + date.getSeconds();
+                    $.generateFile({ filename: 'session_' + timestamp + '.csv', content: getCsv(session), script: host+'download.php' });
                 }
             });
         }

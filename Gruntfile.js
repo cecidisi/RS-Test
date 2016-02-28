@@ -213,9 +213,9 @@ module.exports = function (grunt) {
           src: [
             '<%= config.dist %>/scripts/{,*/}*.js',
             '<%= config.dist %>/styles/{,*/}*.css',
-            '<%= config.dist %>/images/{,*/}*.*',
-            '<%= config.dist %>/styles/fonts/{,*/}*.*',
-            '<%= config.dist %>/*.{ico,png}'
+//            '<%= config.dist %>/images/{,*/}*.*',
+            '<%= config.dist %>/styles/fonts/{,*/}*.*'
+//            '<%= config.dist %>/*.{ico,png}'
           ]
         }
       }
@@ -236,7 +236,7 @@ module.exports = function (grunt) {
       options: {
         assetsDirs: [
           '<%= config.dist %>',
-          '<%= config.dist %>/images',
+//          '<%= config.dist %>/images',
           '<%= config.dist %>/styles'
         ]
       },
@@ -292,28 +292,28 @@ module.exports = function (grunt) {
     // By default, your `index.html`'s <!-- Usemin block --> will take care
     // of minification. These next options are pre-configured if you do not
     // wish to use the Usemin blocks.
-    // cssmin: {
-    //   dist: {
-    //     files: {
-    //       '<%= config.dist %>/styles/main.css': [
-    //         '.tmp/styles/{,*/}*.css',
-    //         '<%= config.app %>/styles/{,*/}*.css'
-    //       ]
-    //     }
-    //   }
-    // },
-    // uglify: {
-    //   dist: {
-    //     files: {
-    //       '<%= config.dist %>/scripts/scripts.js': [
-    //         '<%= config.dist %>/scripts/scripts.js'
-    //       ]
-    //     }
-    //   }
-    // },
-    // concat: {
-    //   dist: {}
-    // },
+     cssmin: {
+       dist: {
+         files: {
+           '<%= config.dist %>/styles/main.css': [
+             '.tmp/styles/{,*/}*.css',
+             '<%= config.app %>/styles/{,*/}*.css'
+           ]
+         }
+       }
+     },
+     uglify: {
+       dist: {
+         files: {
+           '<%= config.dist %>/scripts/scripts.js': [
+             '<%= config.dist %>/scripts/scripts.js'
+           ]
+         }
+       }
+     },
+     concat: {
+       dist: {}
+     },
 
     // Copies remaining files to places other tasks can use
     copy: {
@@ -348,6 +348,22 @@ module.exports = function (grunt) {
         src: '{,*/}*.css'
       }
     },
+
+      // replace the font file path
+//      replace: {
+//          dist: {
+//              src: ['<%= config.dist %>/styles//*.css'],
+//              overwrite: true,                 // overwrite matched source files
+//              replacements: [{
+//                  from: '../bower_components/bootstrap-sass-official/assets/fonts/bootstrap/',
+//                  //to: 'bower_components/bootstrap-sass-official/assets/fonts/bootstrap/'
+//                  //to: '../fonts/'
+//                  to: 'fonts/'
+//              }]
+//          }
+//      },
+
+
 
     // Run some tasks in parallel to speed up build process
     concurrent: {
