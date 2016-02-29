@@ -2,6 +2,7 @@ $icon-font-path: '../fonts/';
 
 // bower:scss
 @import "bootstrap-sass-official/assets/stylesheets/_bootstrap.scss";
+@import "font-awesome/scss/font-awesome.scss";
 // endbower
 
 html {
@@ -49,7 +50,7 @@ p {
             p {
                 display: inline-block;
                 margin-bottom: 0px;
-                font-size: 1.2em;
+                font-size: 1.3em;
             }
         }
     }
@@ -57,6 +58,7 @@ p {
         display: inline-block;
         margin: 20px 15px;
         font-size: 1.3em;
+        font-weight: 600;
         color: #666;
     }
 
@@ -73,7 +75,7 @@ p {
 div#list-container {
     @extend .col-xs-12, .col-sm-12, .col-md-8, .col-lg-6, .col-lg-offset-1;
     display: inline-block;
-    min-height: calc(100% - 80px);
+    min-height: 500px;
     margin-right: 10px;
 }
 
@@ -147,11 +149,30 @@ ul#recs-list {
 #doc-viewer {
     @extend .col-xs-12, .col-sm-12, .col-md-4, .col-lg-4;
     display: inline-block;
-    min-height: calc(100% - 80px);
+    min-height: 500px;
     margin-left: 10px;
 
+    .fa {
+        position: absolute;
+        top: 5px;
+        right: 5px;
+        font-size: 14px;
+        width: 16px;
+        height: 16px;
+        cursor: pointer;
+        visibility: hidden;
+    }
+    &:hover .fa {
+        visibility: visible;
+    }
+
+    h6 {
+        font-size: 1.3em;
+        font-weight: bold;
+    }
+
     p {
-        font-size: 1.05em;
+        font-size: 1.15em;
     }
 }
 

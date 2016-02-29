@@ -157,6 +157,11 @@
 
     });
 
+    $('.fa-trash').click(function(evt){
+        evt.stopPropagation();
+        $docViewer.find('.panel-body').empty();
+    })
+
     ///// Init
     $.get('http://ipinfo.io', function(response) {
         user.ip = response.ip;
