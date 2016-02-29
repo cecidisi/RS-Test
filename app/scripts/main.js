@@ -2,6 +2,8 @@
 
     'use strict';
 
+    //            var host = '../server/';
+    var host = 'http://localhost/RS-Test/server/';
 
     var $list = $('#recs-list'),
         $docViewer = $('#doc-viewer'),
@@ -118,7 +120,7 @@
     $btnNext.click(function(evt){
         evt.stopPropagation();
         if(++curCond < conds.length) {
-            console.log(curRatings);
+//            console.log(curRatings);
             if(Object.keys(curRatings).length < 5)
                 return alert('Some documents are not rated yet!');
 
@@ -134,8 +136,6 @@
             loadRecs(curCond);
         }
         else {
-//            var host = '../server/';
-            var host = 'http://localhost/RS-Test/server/';
 //            console.log(getCsv(session));
             $.ajax({
                 method: 'POST',
@@ -179,5 +179,9 @@
         conds = shuffle(conds);
         loadRecs(curCond);
     }, 'jsonp');
+
+    window.onbeforeunload = function(){
+        return 'The session is not finished';
+    }
 
 })(jQuery);
