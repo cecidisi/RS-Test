@@ -45,12 +45,14 @@
     };
 
 
-    var loadRecs = function(cond){
-        var list = recs[cond.topic][cond.task].recs[cond.rs];
+    var loadRecs = function(condNum){
+        var cond = conds[condNum],
+            list = recs[cond.topic][cond.task].recs[cond.rs];
         $list.empty();
         $docViewer.find('.panel-body').empty();
         $('#p-topic').html(cond.topic);
         $('#p-query').html(msg[cond.topic][cond.task-1]);
+        $('#task-progress').html('Task ' + (condNum+1) + '/' + conds.length);
 
         list.forEach(function(rec, i){
 
@@ -128,14 +130,13 @@
                     rating: curRatings[docIDs[i]].rating
                 }, conds[curCond-1], user ));
             }
-
             curRatings = {};
-            loadRecs(conds[curCond]);
+            loadRecs(curCond);
         }
         else {
 //            var host = '../server/';
             var host = 'http://localhost/RS-Test/server/';
-            console.log(getCsv(session));
+//            console.log(getCsv(session));
             $.ajax({
                 method: 'POST',
                 url: host + 'save.php',
@@ -160,6 +161,7 @@
     $.get('http://ipinfo.io', function(response) {
         user.ip = response.ip;
         user.country = response.country;
+        user.tmsp = (new Date()).toDateString() + ' - ' + (new Date()).toTimeString();
 
         topics = shuffle(topics).slice(0, topics.length-1);
         recommenders.forEach(function(rs, i){
@@ -170,7 +172,7 @@
             });
         });
         conds = shuffle(conds);
-        loadRecs(conds[curCond]);
+        loadRecs(curCond);
     }, 'jsonp');
 
 })(jQuery);
