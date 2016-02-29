@@ -17,12 +17,15 @@ html {
 
 /* Space out content a bit */
 body {
-  height: 100%;
+  height: calc(100% - 40px);
   padding-top: 15px;
   padding-bottom: 20px;
   font-size: 1.1em;
 }
 
+p {
+    font-size: 1.1em;
+}
 /* Everything but the jumbotron gets side spacing for mobile first views */
 .header {
     padding-left: 15px;
@@ -41,11 +44,12 @@ body {
                 margin-top: 0px;
                 margin-bottom: 0px;
                 margin-right: 10px;
+                font-weight: 600;
             }
             p {
                 display: inline-block;
                 margin-bottom: 0px;
-                font-size: 1.1em;
+                font-size: 1.2em;
             }
         }
     }
