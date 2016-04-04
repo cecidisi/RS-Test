@@ -20,40 +20,110 @@
         for(var j, x, i = o.length; i; j = parseInt(Math.random() * i), x = o[--i], o[i] = o[j], o[j] = x){}
         return o;
     };
-
+    var rs = 'U';
     var conds = [], curCond = 0;
     var session = [], curRatings ={}, user = {};
     var msg = {
-        'women in workforce': [
-            "Participation of women in the workforce",
-            "Gender wage gap",
-            "Women in the workforce earning wages or a salary are part of a modern phenomenon, one that developed at the same time as the growth of paid employment for men; yet women have been challenged by inequality in the workforce."
-        ],
-        'robot': [
-            "Autonomous robots",
-            "Human-robot interaction",
-            "The branch of technology that deals with the design, construction, operation, and application of robots, as well as computer systems for their control, sensory feedback, and information processing is robotics"
-        ],
-        'augmented reality': [
-            "Virtual environments",
-            "Context-based object recognition",
-            "Augmented reality (AR) is a live direct or indirect view of a physical, real-world environment whose elements are augmented (or supplemented) by computer-generated sensory input such as sound, video, graphics or GPS data"
-        ],
-        'circular economy': [
-            "Waste management",
-            "Industrial Symbiosis in China",
-            "A circular economy naturally encompasses a shift from fossil fuels to the use of renewable energy, the eradication of waste and the role of diversity as a characteristic of resilient and productive systems"
-        ]
+        'T1 WW': {
+            pretty: 'women in workforce',
+            tasks: [
+                "Participation of women in the workforce",
+                "Gender wage gap",
+                "Women in the workforce earning wages or a salary are part of a modern phenomenon, one that developed at the same time as the growth of paid employment for men; yet women have been challenged by inequality in the workforce."
+            ]
+        },
+        'T2 Robots': {
+            pretty: 'robot',
+            tasks: [
+                "Autonomous robots",
+                "Human-robot interaction",
+                "The branch of technology that deals with the design, construction, operation, and application of robots, as well as computer systems for their control, sensory feedback, and information processing is robotics"
+            ]
+        },
+        'T3 AR': {
+            pretty: 'augmented reality',
+            tasks: [
+                "Virtual environments",
+                "Context-based object recognition",
+                "Augmented reality (AR) is a live direct or indirect view of a physical, real-world environment whose elements are augmented (or supplemented) by computer-generated sensory input such as sound, video, graphics or GPS data"
+            ]
+        },
+        'T4 CE': {
+            pretty: 'circular economy',
+            tasks: [
+                "Waste management",
+                "Industrial Symbiosis in China",
+                "A circular economy naturally encompasses a shift from fossil fuels to the use of renewable energy, the eradication of waste and the role of diversity as a characteristic of resilient and productive systems"
+           ]
+        }
     };
+
+
+    var shuffleConditions = function(){
+
+        var taskConds = ['focus','broad'],
+            explConds = [false, true],
+            conds = [];
+
+        shuffle(topics).forEach(function(topic, i){
+            taskConds.forEach(function(taskType, j){
+                var k = (i%2) ? j: 1-j, wExpl = explConds[k];
+                conds.push({ rs: rs, topic: topic, task: taskType, wExpl: wExpl });
+            });
+        });
+        return shuffle(conds);
+    }
+
+    var getExplanation = function(rec, cond) {
+        var getExplanationFor = {
+            TU: function() {
+                var str = 'Bookmarked by <strong>' + rec.misc.users + '</strong> users with similar interests<br><br>Tagged: <br>';
+                var tags = rec.misc.tags;
+                Object.keys(tags).forEach(function(tag){
+                    str +=  '<strong>' + tags[tag].tagged + '</strong> times with <strong>' +  tags[tag].term + '</strong><br>';
+                });
+                return str;
+            },
+            U: function() {
+                return 'Bookmarked by <strong>' + rec.misc.users + '</strong> users with similar interests<br>';
+            },
+            T: function() {
+                var str = 'Tagged: <br>';
+                var tags = rec.misc.tags;
+                Object.keys(tags).forEach(function(tag){
+                    str +=  '<strong>' + tags[tag].tagged + '</strong> times with <strong>' +  tags[tag].term + '</strong><br>';
+                });
+                return str;
+            },
+            MP: function() {
+                return 'Bookmarked <strong>' + rec.misc.times + '</strong> times for topic <strong>' +  msg[cond.topic].pretty + '</strong>';
+            },
+            CB: function() {
+                var str = 'Terms in this document:<br>';
+                var keywords = rec.misc.keywords;
+                Object.keys(keywords).forEach(function(kw){
+                    var freq = (keywords[kw]>=0.3 ) ? 'high' : (keywords[kw] >= 0.1 ? 'moderate' : 'low');
+                    str += '<strong>' + kw + '</strong> (<strong>' + freq + '</strong> frequency)<br>';
+                });
+                return str;
+            }
+        }
+       return getExplanationFor[cond.rs]();
+    }
 
 
     var loadRecs = function(condNum){
         var cond = conds[condNum],
-            list = recs[cond.topic][cond.task].recs[cond.rs];
+            rs = cond.rs,
+            topic = cond.topic,
+            task = cond.task == 'focus' ? 2 : 3,
+            wExpl = cond.wExpl;
+        var list = recs[topic][task].recs[rs];
+        console.log(cond);
         $list.empty();
         $docViewer.find('.panel-body').empty();
-        $('#p-topic').html(cond.topic);
-        $('#p-query').html(msg[cond.topic][cond.task-1]);
+        $('#p-topic').html(msg[topic].pretty);
+        $('#p-query').html(msg[topic].tasks[task-1]);
         $('#task-progress').html('Task ' + (condNum+1) + '/' + conds.length);
 
         list.forEach(function(rec, i){
@@ -61,10 +131,13 @@
             var doc = documents[rec.doc];
             var $row = $('<li/>', { doc: rec.doc}).appendTo($list);
             var $secTitle = $('<div/>', { class: 'section-title' }).appendTo($row);
-            var $title = $('<a/>', { href: '#' }).appendTo($secTitle);
+            var $title = $('<a/>', { href: '#', class: 'title' }).appendTo($secTitle);
             $('<h5/>', { html: doc.title }).appendTo($title);
-            if(cond.wExpl) {
-                $('<p/>', { html: rec.expl }).appendTo($secTitle);
+            $('<i/>', { class: 'expl-icon fa fa-eye' }).appendTo($title);
+            if(wExpl) {
+                $secTitle.addClass('has-explanation');
+                var htmlTooltip = getExplanation(rec, cond);
+                var $tooltip = $('<div/>', { class: 'expl-tooltip', html: htmlTooltip }).appendTo($secTitle);
             }
 
             var $relSection = $('<div/>', { class: 'section-relevance' }).appendTo($row);
@@ -90,6 +163,8 @@
 
             $title.click(function(evt){
                 evt.stopPropagation();
+                $('.title').removeClass('selected');
+                $(this).addClass('selected');
                 var html = '<h6>' + doc.title + '</h6><br><p>' + doc.description + '</p>';
                 $docViewer.find('.panel-body').html(html);
             });
@@ -159,6 +234,7 @@
 
     $('.fa-trash').click(function(evt){
         evt.stopPropagation();
+        $('.title').removeClass('selected');
         $docViewer.find('.panel-body').empty();
     })
 
@@ -167,21 +243,12 @@
         user.ip = response.ip;
         user.country = response.country;
         user.tmsp = (new Date()).toDateString() + ' - ' + (new Date()).toTimeString();
-
-        topics = shuffle(topics).slice(0, topics.length-1);
-        recommenders.forEach(function(rs, i){
-            [true, false].forEach(function(wExpl){
-                [2, 3].forEach(function(task){
-                    conds.push({ topic: topics[i], rs: rs, task: task, wExpl: wExpl });
-                });
-            });
-        });
-        conds = shuffle(conds);
+        conds = shuffleConditions();
         loadRecs(curCond);
     }, 'jsonp');
 
-    window.onbeforeunload = function(){
+    /*window.onbeforeunload = function(){
         return 'The session is not finished';
-    }
+    }*/
 
 })(jQuery);

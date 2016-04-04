@@ -107,15 +107,59 @@ ul#recs-list {
         list-style: none;
         border-bottom: 1px solid #ddd;
 
+        &:last-child {
+            border-bottom: none;
+        }
+
         .section-title {
 
-            h5 {
-                cursor: pointer;
+            padding: 10px;
+
+            a.title {
+                h5 {
+                    cursor: pointer;
+                    display: inline;
+                }
+
+                i.expl-icon {
+                    display: none;
+                    padding-left: 5px;
+                    color: #555;
+                    font-weight: bold;
+                }
+
                 &.selected {
                     color: crimson;
                 }
             }
+
+            .expl-tooltip {
+                display: none;
+                position: absolute;
+                left: 50px;
+                padding: 15px;
+                background: rgba(240,240,240,.9);
+                border-radius: 4px;
+                box-shadow: 2px 2px 3px #555;
+                font-size: 1.1em;
+                color: #333;
+
+                strong {
+                    color: black;
+                }
+            }
+
+            &.has-explanation {
+                i.expl-icon {
+                    display: inline-block !important;
+                }
+
+                &:hover .expl-tooltip {
+                   display: block !important;
+                }
+            }
         }
+
         .section-relevance {
             float: right;
             position: relative;
@@ -134,11 +178,6 @@ ul#recs-list {
                 @extend .star;
                 background-image: url(../images/favicon_on.png);
             }
-        }
-
-
-        &:last-child {
-            border-bottom: none;
         }
     }
 

@@ -1,0 +1,495 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"docum",
+				"document"
+			],
+			[
+				"top",
+				"topicTot"
+			],
+			[
+				"tu",
+				"TUalg"
+			],
+			[
+				"lis",
+				"lists"
+			],
+			[
+				"TU",
+				"TUalg"
+			],
+			[
+				"rando",
+				"randomize"
+			],
+			[
+				"piv",
+				"pivot"
+			],
+			[
+				"pi",
+				"pivot"
+			],
+			[
+				"pvi",
+				"pivotidx"
+			],
+			[
+				"prot",
+				"prototype"
+			],
+			[
+				"key",
+				"keywords"
+			],
+			[
+				"obje",
+				"Object"
+			],
+			[
+				"it",
+				"itemUserMatrix"
+			],
+			[
+				"norm",
+				"normQueryDot"
+			],
+			[
+				"totTag",
+				"totTagWeights"
+			],
+			[
+				"tota",
+				"totTagWeights"
+			],
+			[
+				"tot",
+				"totTagWeights"
+			],
+			[
+				"doc",
+				"doc"
+			],
+			[
+				"F",
+				"false"
+			],
+			[
+				"users",
+				"users"
+			],
+			[
+				"user",
+				"user-tag-matrix"
+			],
+			[
+				"Keywo",
+				"keywordExtractor"
+			],
+			[
+				"neigh",
+				"neighbors"
+			],
+			[
+				"tf",
+				"tfidf"
+			],
+			[
+				"sum",
+				"sumItemTag"
+			],
+			[
+				"sim",
+				"simVT"
+			],
+			[
+				"d",
+				"doc"
+			],
+			[
+				"fre",
+				"freq"
+			],
+			[
+				"ite",
+				"itemTagMatrix"
+			],
+			[
+				"sin",
+				"simDocuments"
+			],
+			[
+				"simD",
+				"simDoc"
+			],
+			[
+				"docs",
+				"docSimilarityMatrix"
+			],
+			[
+				"unio",
+				"unionTerms"
+			],
+			[
+				"docsi",
+				"docSimilarity"
+			],
+			[
+				"simi",
+				"similarity"
+			],
+			[
+				"docsimila",
+				"docSimilarityMatrix"
+			],
+			[
+				"us",
+				"userItemMatrix"
+			],
+			[
+				"docsimi",
+				"docSimilarityMatrix"
+			],
+			[
+				"docu",
+				"documents"
+			]
+		]
+	},
+	"buffers":
+	[
+		{
+			"file": "app/scripts/main.js",
+			"settings":
+			{
+				"buffer_size": 10200,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "app/styles/main.scss",
+			"settings":
+			{
+				"buffer_size": 4825,
+				"line_ending": "Windows"
+			}
+		}
+	],
+	"build_system": "",
+	"build_system_choices":
+	[
+	],
+	"build_varint": "",
+	"command_palette":
+	{
+		"height": 392.0,
+		"last_filter": "git",
+		"selected_items":
+		[
+			[
+				"git",
+				"Git: Status"
+			],
+			[
+				"package",
+				"Package Control: Install Package"
+			]
+		],
+		"width": 416.0
+	},
+	"console":
+	{
+		"height": 362.0,
+		"history":
+		[
+			"git branch",
+			"git status",
+			"git pull",
+			"git commit -a -m \"Adding document ismilarity to scores\"",
+			"git -a -m \"Adding document ismilarity to scores\"",
+			"import urllib.request,os,hashlib; h = '2915d1851351e5ee549c20394736b442' + '8bc59f460fa1548d1514676163dafc88'; pf = 'Package Control.sublime-package'; ipp = sublime.installed_packages_path(); urllib.request.install_opener( urllib.request.build_opener( urllib.request.ProxyHandler()) ); by = urllib.request.urlopen( 'http://packagecontrol.io/' + pf.replace(' ', '%20')).read(); dh = hashlib.sha256(by).hexdigest(); print('Error validating download (got %s instead of %s), please try manual install' % (dh, h)) if dh != h else open(os.path.join( ipp, pf), 'wb' ).write(by)"
+		]
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"expanded_folders":
+	[
+		"/C/Ampps/www/RS-Test",
+		"/C/Ampps/www/RS-Test/app",
+		"/C/Ampps/www/RS-Test/app/scripts",
+		"/C/Ampps/www/RS-Test/app/styles"
+	],
+	"file_history":
+	[
+		"/C/Ampps/www/uRank-Test/recommender-test/js/main.js",
+		"/C/Ampps/www/uRank-Test/recommender-test/js/rs-tester.js",
+		"/C/Ampps/www/uRank-Test/recommender-test/js/rs-cb.js",
+		"/C/Ampps/www/uRank-Test/recommender-test/js/rs-mp.js",
+		"/C/Ampps/www/uRank-Test/recommender-test/js/rs-tu.js",
+		"/C/Ampps/www/uRank-Test/recommender-test/index.html",
+		"/C/Ampps/www/uRank-Test/recommender-test/js/rs-tu-alt.js",
+		"/C/Ampps/www/uRank-Test/recommender-test/js/rs-tu-old.js",
+		"/C/Ampps/www/uRank-Test/recommender-test/js/utils.js",
+		"/C/Ampps/www/uRank-Test/recommender-test/js/rs-tu-2.js",
+		"/C/Ampps/www/uRank-Test/recommender-test/js/tucb.js",
+		"/C/Ampps/www/uRank-Test/recommender-test/js/rs-alt-2.js"
+	],
+	"find":
+	{
+		"height": 34.0
+	},
+	"find_in_files":
+	{
+		"height": 0.0,
+		"where_history":
+		[
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": false,
+		"find_history":
+		[
+			"funciton",
+			"this.tagUserMatrix",
+			"top5",
+			"RS_ALT_1",
+			"RS_ALT_2",
+			"RS_TU",
+			"getInitData",
+			"data",
+			"get5",
+			"bubbleSort",
+			"simVT",
+			"k.stem",
+			"commmonTerms",
+			"tagUserMatrix",
+			"union",
+			"shuf",
+			"shuff",
+			"shuffle",
+			"foreach",
+			"RS_ALT_1",
+			"getuser",
+			"docIDs",
+			"Euclide",
+			"euclidea",
+			"this.data",
+			"this.documents",
+			"k.term",
+			"keywords",
+			"keywor",
+			"&",
+			"RS_ALT_2",
+			"expSumTags",
+			"roundt",
+			"maxTagAcrossDocs",
+			"maxTagAccrossUsers",
+			"	",
+			"sumTagAcrossUsers",
+			"sumTagAcrossDocs",
+			"similarDocs",
+			"alpha",
+			"getEuclidenNorm",
+			"docSimilarityMatrix",
+			"userBasedScore",
+			"expSumTags",
+			"itemTagsExpSum",
+			"_data",
+			"relTermFrequencies"
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+			"function",
+			"RS_TU",
+			"RS_TU_ALT",
+			"RS_TU_OLD",
+			"quickSort",
+			"tag",
+			"RS_ALT_2",
+			"k.stem",
+			",",
+			"RS_ALT_1",
+			"RS_TU",
+			"growthFun",
+			"_this.data",
+			"keywords"
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"selected": 0,
+			"sheets":
+			[
+				{
+					"buffer": 0,
+					"file": "app/scripts/main.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 10200,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								676,
+								676
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "app/styles/main.scss",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 4825,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								2115,
+								2115
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Syntax Highlighting for Sass/Syntaxes/SCSS.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": -0.0,
+						"translation.y": 1530.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
+					"type": "text"
+				}
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 23.0
+	},
+	"input":
+	{
+		"height": 31.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.find_results":
+	{
+		"height": 0.0
+	},
+	"pinned_build_system": "",
+	"project": "rs-test.sublime-project",
+	"replace":
+	{
+		"height": 62.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+			[
+				"main",
+				"recommender-test\\js\\main.js"
+			]
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_symbol":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"selected_group": 0,
+	"settings":
+	{
+	},
+	"show_minimap": true,
+	"show_open_files": false,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 249.0,
+	"status_bar_visible": true,
+	"template_settings":
+	{
+	}
+}
