@@ -5,9 +5,30 @@
         <title>RS Test</title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width">
+        <link rel="stylesheet" type="text/css" href="styles/main.css">
     </head>
     <body>
-        <h4>You completed all tasks</h4><br>
-        <h4>Thank you for participating!</h4>
+        <div class="container" style="text-align: center;">
+            <br><br><br>
+            <h4 style="color: blue">Great! You finished all tasks!</h4>
+            <h4 style="color: blue">Thank you very much for taking the time :)</h4><br><br>
+            <h5>Please follow the link below and fill a short questionnaire. You will find the <strong>Prolific</strong> completion link once the questionnaire is submitted. </h5><br>
+            <a id="questionnaire-link" href="#"><h5 id='h5-link' style="font-size: 16px"></h5></a>
+        </div>
+
+        <script type="text/javascript">
+
+            var linkMapping = {
+                TU: 'http://goo.gl/forms/5USDMcxSFb',
+                T : 'http://goo.gl/forms/Fac3WwABu0',
+                U : 'http://goo.gl/forms/nPqsTk4uvn',
+                CB: 'http://goo.gl/forms/2cIgwkWmFE',
+                MP: 'http://goo.gl/forms/QWng0qWGse'
+            };
+
+            var rs = sessionStorage['rs'];
+            document.getElementById('questionnaire-link').href = linkMapping[rs];
+            document.getElementById('h5-link').innerHTML = linkMapping[rs];
+        </script>
     </body>
 </html>

@@ -20,9 +20,11 @@
         for(var j, x, i = o.length; i; j = parseInt(Math.random() * i), x = o[--i], o[i] = o[j], o[j] = x){}
         return o;
     };
-    var rs = 'U';
+    var rs = window.sessionStorage.getItem('rs') || 'TU';
+    var userId = window.sessionStorage.getItem('user-id') || 'no-user';
+    console.log('rs = ' + rs + '; user id = ' + userId);
     var conds = [], curCond = 0;
-    var session = [], curRatings ={}, user = {};
+    var session = [], curRatings ={}, user = {}, timer;
     var msg = {
         'T1 WW': {
             pretty: 'women in workforce',
@@ -172,6 +174,7 @@
             $relSection.click(function(evt){ evt.stopPropagation(); });
         });
 
+        timer = $.now();
     };
 
 
@@ -194,6 +197,7 @@
 
     $btnNext.click(function(evt){
         evt.stopPropagation();
+
         if(++curCond < conds.length) {
 //            console.log(curRatings);
             if(Object.keys(curRatings).length < 5)
@@ -212,6 +216,10 @@
         }
         else {
 //            console.log(getCsv(session));
+
+            var $bg = $('<div/>', { class: 'dark-background' }).appendTo($('body'));
+            $('<span/>', { class: 'loading fa fa-circle-o-notch' }).appendTo($bg);
+
             $.ajax({
                 method: 'POST',
                 url: host + 'save.php',
@@ -228,6 +236,7 @@
                     $.generateFile({ filename: 'session_' + timestamp + '.csv', content: getCsv(session), script: host+'download.php' });
                 }
             });
+
         }
 
     });
@@ -239,14 +248,21 @@
     })
 
     ///// Init
-    $.get('http://ipinfo.io', function(response) {
+    conds = shuffleConditions();
+    loadRecs(curCond);
+
+    /*$.get('http://ipinfo.io', function(response) {
         user.ip = response.ip;
         user.country = response.country;
         user.tmsp = (new Date()).toDateString() + ' - ' + (new Date()).toTimeString();
         conds = shuffleConditions();
         loadRecs(curCond);
     }, 'jsonp');
+    */
 
+    /****************************************
+     *  UNCOMMENT FOR NORMAL WORKFLOW
+     ****************************************/
     /*window.onbeforeunload = function(){
         return 'The session is not finished';
     }*/
