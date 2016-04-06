@@ -17,13 +17,10 @@ if(!is_writable($output_dir)) {
     exit;
 }
 
-$timestamp = date('Y-m-d').'_'.date('h').'-'.date('i').'-'.date('s');
-$filename = 'session-'.$timestamp.'.csv';
+$filename = $_POST['filename'];
 $content = $_POST['content'];
-
 $file = fopen($output_dir.'/'.$filename, 'w') or die('Unable to open file!');
 fwrite($file, $content);
 fclose($file);
 echo "data saved succesfully";
-
 ?>

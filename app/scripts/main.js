@@ -11,9 +11,9 @@
 
     var documents = window.documents,
         recs = window.recs,
-        topics = Object.keys(recs),
-        tasks = Object.keys(recs[topics[0]]),
-        recommenders = Object.keys(recs[topics[0]][tasks[0]].recs);
+        topics = Object.keys(recs);
+        //tasks = Object.keys(recs[topics[0]]),
+        //recommenders = Object.keys(recs[topics[0]][tasks[0]].recs);
 
     var shuffle = function(original) {
         var o = original.slice();
@@ -27,15 +27,15 @@
     var session = [], curRatings ={}, user = {}, timer;
     var msg = {
         'T1 WW': {
-            pretty: 'women in workforce',
+            pretty: 'Women in Workforce',
             tasks: [
                 "Participation of women in the workforce",
                 "Gender wage gap",
                 "Women in the workforce earning wages or a salary are part of a modern phenomenon, one that developed at the same time as the growth of paid employment for men; yet women have been challenged by inequality in the workforce."
             ]
         },
-        'T2 Robots': {
-            pretty: 'robot',
+        'T2 Ro': {
+            pretty: 'Robots',
             tasks: [
                 "Autonomous robots",
                 "Human-robot interaction",
@@ -43,7 +43,7 @@
             ]
         },
         'T3 AR': {
-            pretty: 'augmented reality',
+            pretty: 'Augmented Reality',
             tasks: [
                 "Virtual environments",
                 "Context-based object recognition",
@@ -51,7 +51,7 @@
             ]
         },
         'T4 CE': {
-            pretty: 'circular economy',
+            pretty: 'Circular Economy',
             tasks: [
                 "Waste management",
                 "Industrial Symbiosis in China",
@@ -114,6 +114,11 @@
     }
 
 
+    var rateDocument = function(){
+
+
+    };
+
     var loadRecs = function(condNum){
         var cond = conds[condNum],
             rs = cond.rs,
@@ -159,7 +164,7 @@
                         }
                     });
                     // set document rating
-                    curRatings[rec.doc] = { pos: (i+1), rating: numStars };
+                    curRatings[rec.doc] = { user: userId, 'task-num': (condNum+1),  doc: rec.doc, pos: (i+1), rating: numStars, tmsp: ($.now()-timer) };
                 });
             }
 
@@ -178,14 +183,23 @@
     };
 
 
+    var getTimestamp = function(date){
+        date = date || new Date();
+        var year = date.getFullYear(),
+            month = (date.getMonth() + 1) < 10 ? '0'+(date.getMonth() + 1) : (date.getMonth() + 1),
+            day = date.getDate() < 10 ? '0'+date.getDate() : date.getDate(),
+            hour= date.getHours() < 10 ? '0'+date.getHours() : date.getHours(),
+            minutes = date.getMinutes() < 10 ? '0'+date.getMinutes() : date.getMinutes(),
+            seconds = date.getSeconds() < 10 ? '0'+date.getSeconds() : date.getSeconds();
+        return (year+'-'+month+'-'+day+'_'+hour+'.'+minutes+'.'+seconds);
+    };
+
     var getCsv = function(arr) {
         var keys = Object.keys(arr[0]),
             csv = keys.join(',') + '\n';
-
         for(var i=0; i<arr.length; ++i) {
             var values = [];
-            //console.log(arr[i]);
-            for(var k=0; k< keys.length;++k) {
+            for(var k=0, len=keys.length; k<len; ++k) {
                 values.push(arr[i][keys[k]]);
             }
             csv += (values.join(',') + '\n');
@@ -194,51 +208,55 @@
     };
 
 
+    var submitSession = function(){
+        window.onbeforeunload = null;
+        // show dark backgorund and spinner
+        var $bg = $('<div/>', { class: 'dark-background' }).appendTo($('body')).click(function(evt){ evt.stopPropagation(); });
+        $('<span/>', { class: 'loading fa fa-circle-o-notch' }).appendTo($bg);
+
+        var filename = 'session_' + getTimestamp() + '_' + userId + '.csv',
+            sessionData = getCsv(session);
+
+        // Submit session and redirect to 'finished' page
+        $.ajax({
+            method: 'POST',
+            url: host + 'save.php',
+            data: { filename: filename, content: sessionData }
+        }).done(function(response){
+            console.log(response);
+            window.location.href = 'finished.html';
+        }).fail(function(jqXHR){
+            console.log('post failed');
+            console.log(jqXHR);
+            if(confirm('Session data could not be saved. Please download and send to cdisciascio@know-center.at')) {
+                $.generateFile({ filename: filename, content: sessionData, script: host+'download.php' });
+                setTimeout(function(){
+                    window.location.href = 'finished.html';
+                }, 500);
+            }
+        });
+    };
+
+    var addTaskToSession = function(){
+
+        var docIDs = Object.keys(curRatings);
+        for(var i=0, len=docIDs.length; i<len; ++i ) {
+            session.push($.extend(true, {}, conds[curCond], curRatings[docIDs[i]] ));
+        }
+        curRatings = {};
+
+        if(++curCond < conds.length)
+            loadRecs(curCond);
+        else
+            submitSession();
+    }
+
 
     $btnNext.click(function(evt){
         evt.stopPropagation();
-
-        if(++curCond < conds.length) {
-//            console.log(curRatings);
-            if(Object.keys(curRatings).length < 5)
-                return alert('Some documents are not rated yet!');
-
-            var docIDs = Object.keys(curRatings);
-            for(var i=0; i<docIDs.length; ++i ) {
-                session.push($.extend(true, {
-                    doc: docIDs[i],
-                    pos: curRatings[docIDs[i]].pos,
-                    rating: curRatings[docIDs[i]].rating
-                }, conds[curCond-1], user ));
-            }
-            curRatings = {};
-            loadRecs(curCond);
-        }
-        else {
-//            console.log(getCsv(session));
-
-            var $bg = $('<div/>', { class: 'dark-background' }).appendTo($('body'));
-            $('<span/>', { class: 'loading fa fa-circle-o-notch' }).appendTo($bg);
-
-            $.ajax({
-                method: 'POST',
-                url: host + 'save.php',
-                data: { content: getCsv(session) }
-            }).done(function(response){
-                console.log(response);
-                window.location.href = 'finished.html';
-            }).fail(function(jqXHR){
-                console.log('post failed');
-                console.log(jqXHR);
-                if(confirm('Session data could not be saved. Please download and send to cdisciascio@know-center.at')) {
-                    var date = new Date(),
-                        timestamp = date.getFullYear() + '-' + (parseInt(date.getMonth()) + 1) + '-' + date.getDate() + '_' + date.getHours() + '.' + date.getMinutes() + '.' + date.getSeconds();
-                    $.generateFile({ filename: 'session_' + timestamp + '.csv', content: getCsv(session), script: host+'download.php' });
-                }
-            });
-
-        }
-
+        if(Object.keys(curRatings).length < 5)
+            return alert('Some documents are not rated yet!');
+        addTaskToSession();
     });
 
     $('.fa-trash').click(function(evt){
@@ -250,6 +268,7 @@
     ///// Init
     conds = shuffleConditions();
     loadRecs(curCond);
+
 
     /*$.get('http://ipinfo.io', function(response) {
         user.ip = response.ip;
@@ -263,8 +282,8 @@
     /****************************************
      *  UNCOMMENT FOR NORMAL WORKFLOW
      ****************************************/
-    /*window.onbeforeunload = function(){
+    window.onbeforeunload = function(){
         return 'The session is not finished';
-    }*/
+    };
 
 })(jQuery);
