@@ -6,7 +6,7 @@ if(empty($_POST['content'])){
     exit;
 }
 
-$output_dir = "./logs";
+$output_dir = "/logs";
 if(!file_exists($output_dir)) {
     mkdir($output_dir, 0755, true);
 }
