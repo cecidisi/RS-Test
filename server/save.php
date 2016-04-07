@@ -19,8 +19,7 @@ if(!is_writable($output_dir)) {
 
 $filename = $_POST['filename'];
 $content = $_POST['content'];
-//$file = fopen($output_dir.'/'.$filename, 'w') or die('Unable to open file!');
-$file = fopen($filename, 'w') or die('Unable to open file!');
+$file = fopen($output_dir.'/'.$filename, 'w') or die('Unable to open file!');
 fwrite($file, $content);
 fclose($file);
 
