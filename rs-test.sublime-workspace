@@ -4,6 +4,38 @@
 		"selected_items":
 		[
 			[
+				"doc",
+				"docIDs"
+			],
+			[
+				"add",
+				"addTaskToSession"
+			],
+			[
+				"le",
+				"length"
+			],
+			[
+				"sess",
+				"sessionData"
+			],
+			[
+				"font-s",
+				"font-size"
+			],
+			[
+				"link",
+				"linkMapping"
+			],
+			[
+				"questionna",
+				"questionnaire-link"
+			],
+			[
+				"li",
+				"link	Tag"
+			],
+			[
 				"docum",
 				"document"
 			],
@@ -70,10 +102,6 @@
 			[
 				"tot",
 				"totTagWeights"
-			],
-			[
-				"doc",
-				"doc"
 			],
 			[
 				"F",
@@ -167,7 +195,15 @@
 			"file": "app/scripts/main.js",
 			"settings":
 			{
-				"buffer_size": 10200,
+				"buffer_size": 11457,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "app/index.html",
+			"settings":
+			{
+				"buffer_size": 4178,
 				"line_ending": "Windows"
 			}
 		},
@@ -175,7 +211,7 @@
 			"file": "app/styles/main.scss",
 			"settings":
 			{
-				"buffer_size": 4825,
+				"buffer_size": 5964,
 				"line_ending": "Windows"
 			}
 		}
@@ -228,11 +264,19 @@
 	[
 		"/C/Ampps/www/RS-Test",
 		"/C/Ampps/www/RS-Test/app",
-		"/C/Ampps/www/RS-Test/app/scripts",
-		"/C/Ampps/www/RS-Test/app/styles"
+		"/C/Ampps/www/RS-Test/app/datasets",
+		"/C/Ampps/www/RS-Test/dist",
+		"/C/Ampps/www/RS-Test/server",
+		"/C/Ampps/www/RS-Test/server/logs"
 	],
 	"file_history":
 	[
+		"/C/Ampps/www/RS-Test/app/datasets/recs.js",
+		"/C/Ampps/www/RS-Test/server/save.php",
+		"/C/Ampps/www/RS-Test/app/finished.html",
+		"/C/Ampps/www/RS-Test/server/logs/session_2016-04-06_11.20.11_fgfhgfhdfgh.csv",
+		"/C/Ampps/www/RS-Test/app/rs-setter.php",
+		"/C/Ampps/www/RS-Test/Gruntfile.js",
 		"/C/Ampps/www/uRank-Test/recommender-test/js/main.js",
 		"/C/Ampps/www/uRank-Test/recommender-test/js/rs-tester.js",
 		"/C/Ampps/www/uRank-Test/recommender-test/js/rs-cb.js",
@@ -262,6 +306,18 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"topics",
+			"tasks",
+			"recommenders",
+			"T2 Robots",
+			"curRatings",
+			"curco",
+			"curCond",
+			"curRatings",
+			"user",
+			"index",
+			"copy",
+			"container",
 			"funciton",
 			"this.tagUserMatrix",
 			"top5",
@@ -316,6 +372,7 @@
 		"regex": false,
 		"replace_history":
 		[
+			"T2 Ro",
 			"function",
 			"RS_TU",
 			"RS_TU_ALT",
@@ -349,15 +406,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 10200,
+						"buffer_size": 11457,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								676,
-								676
+								0,
+								0
 							]
 						],
 						"settings":
@@ -367,7 +424,7 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 0.0,
+						"translation.y": 990.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 0,
@@ -375,19 +432,49 @@
 				},
 				{
 					"buffer": 1,
-					"file": "app/styles/main.scss",
+					"file": "app/index.html",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 4825,
+						"buffer_size": 4178,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								2115,
-								2115
+								1587,
+								1587
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/HTML/HTML.sublime-syntax",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 450.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "app/styles/main.scss",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 5964,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								5004,
+								5004
 							]
 						],
 						"settings":
@@ -396,11 +483,11 @@
 							"tab_size": 4,
 							"translate_tabs_to_spaces": true
 						},
-						"translation.x": -0.0,
-						"translation.y": 1530.0,
+						"translation.x": 0.0,
+						"translation.y": 3112.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 1,
+					"stack_index": 2,
 					"type": "text"
 				}
 			]
@@ -487,7 +574,7 @@
 	"show_open_files": false,
 	"show_tabs": true,
 	"side_bar_visible": true,
-	"side_bar_width": 249.0,
+	"side_bar_width": 381.0,
 	"status_bar_visible": true,
 	"template_settings":
 	{
