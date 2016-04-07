@@ -224,7 +224,7 @@
             data: { filename: filename, content: sessionData }
         }).done(function(response){
             console.log(response);
-            window.location.href = 'finished.html';
+            //window.location.href = 'finished.html';
         }).fail(function(jqXHR){
             console.log('post failed');
             console.log(jqXHR);
