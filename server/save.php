@@ -24,5 +24,5 @@ $op = fwrite($file, $content);
 fclose($file);
 if($op === false)
 	die("Fwrite failed");
-echo $file.''.$filename." saved succesfully";
+echo $content.' ------------------- '.$file.''.$filename." saved succesfully";
 ?>
