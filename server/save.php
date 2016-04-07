@@ -6,14 +6,14 @@ if(empty($_POST['content'])){
     exit;
 }
 
-$output_dir = "/logs";
+$output_dir = "./logs";
 if(!file_exists($output_dir)) {
     mkdir($output_dir, 0755, true);
 }
 chmod($output_dir, 0755);
 
 if(!is_writable($output_dir)) {
-    return_error('ERROR no writing permission', 1337);
+    return_error('no writing permission', 1337);
     exit;
 }
 
@@ -21,9 +21,9 @@ $filename = $_POST['filename'];
 $content = $_POST['content'];
 //$file = fopen($output_dir.'/'.$filename, 'w') or die('Unable to open file!');
 $file = fopen($filename, 'w') or die('Unable to open file!');
-$op = fwrite($file, $content);
+fwrite($file, $content);
 fclose($file);
-if($op === false)
-	die("Fwrite failed");
-echo $content.' -------------------   '.$file.'   '.$filename.' saved succesfully';
+
+echo $filename.' saved succesfully ============= '.$content;
+
 ?>

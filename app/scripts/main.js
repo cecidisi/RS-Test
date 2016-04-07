@@ -2,8 +2,8 @@
 
     'use strict';
 
-    //            var host = '../server/';
-    var host = 'http://localhost/RS-Test/server/';
+    var host = '../server/';
+    //var host = 'http://localhost/RS-Test/server/';
 
     var $list = $('#recs-list'),
         $docViewer = $('#doc-viewer'),
