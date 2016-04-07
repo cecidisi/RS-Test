@@ -22,5 +22,5 @@ $content = $_POST['content'];
 $file = fopen($output_dir.'/'.$filename, 'w') or die('Unable to open file!');
 fwrite($file, $content);
 fclose($file);
-echo "data saved succesfully";
+echo $filename." saved succesfully";
 ?>
