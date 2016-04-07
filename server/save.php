@@ -19,10 +19,11 @@ if(!is_writable($output_dir)) {
 
 $filename = $_POST['filename'];
 $content = $_POST['content'];
-$file = fopen($output_dir.'/'.$filename, 'w') or die('Unable to open file!');
+//$file = fopen($output_dir.'/'.$filename, 'w') or die('Unable to open file!');
+$file = fopen($filename, 'w') or die('Unable to open file!');
 $op = fwrite($file, $content);
 fclose($file);
 if($op === false)
 	die("Fwrite failed");
-echo $content.' ------------------- '.$file.''.$filename." saved succesfully";
+echo $content.' -------------------   '.$file.'   '.$filename.' saved succesfully';
 ?>
