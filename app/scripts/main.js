@@ -217,7 +217,6 @@
         var filename = 'session_' + getTimestamp() + '_' + userId + '.csv',
             sessionData = getCsv(session);
 
-        console.log(host);
         // Submit session and redirect to 'finished' page
         $.ajax({
             method: 'POST',
@@ -225,7 +224,7 @@
             data: { filename: filename, content: sessionData }
         }).done(function(response){
             console.log(response);
-            //window.location.href = 'finished.html';
+            window.location.href = 'finished.html';
         }).fail(function(jqXHR){
             console.log('post failed');
             console.log(jqXHR);
