@@ -214,7 +214,7 @@
         var $bg = $('<div/>', { class: 'dark-background' }).appendTo($('body')).click(function(evt){ evt.stopPropagation(); });
         $('<span/>', { class: 'loading fa fa-circle-o-notch' }).appendTo($bg);
 
-        var filename = 'session_' + getTimestamp() + '_' + userId + '.csv',
+        var filename = 'session_' + getTimestamp() + '_' + rs + '_' + userId + '.csv',
             sessionData = getCsv(session);
 
         // Submit session and redirect to 'finished' page
