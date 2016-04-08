@@ -23,6 +23,6 @@ $file = fopen($output_dir.'/'.$filename, 'w') or die('Unable to open file!');
 fwrite($file, $content);
 fclose($file);
 
-echo $filename.' saved succesfully ============= '.$content;
+echo $filename.' saved succesfully';
 
 ?>
