@@ -2,7 +2,8 @@
 
     'use strict';
 
-    var host = '../server/';
+    var host = (window.location.port === '9000') ? 'http://localhost/RS-Test/server/' : '../server/';
+    console.log(host);
     //var host = 'http://localhost/RS-Test/server/';
 
     var $list = $('#recs-list'),
@@ -24,7 +25,8 @@
     var userId = window.sessionStorage.getItem('user-id') || 'no-user';
     console.log('rs = ' + rs + '; user id = ' + userId);
     var conds = [], curCond = 0;
-    var session = [], curRatings ={}, user = {}, timer;
+    var ratings = [], curRatings ={}, user = {}, timer;
+    var session  = [], curSession = {};
     var msg = {
         'T1 WW': {
             pretty: 'Women in Workforce',
@@ -114,11 +116,6 @@
     }
 
 
-    var rateDocument = function(){
-
-
-    };
-
     var loadRecs = function(condNum){
         var cond = conds[condNum],
             rs = cond.rs,
@@ -180,6 +177,11 @@
         });
 
         timer = $.now();
+
+        curSession['task-num'] = condNum+1;
+        curSession = $.extend(true, {}, cond);
+        curSession.start = timer;
+        curSession['start-pretty'] = (new Date(curSession.start)).toString();        
     };
 
 
@@ -208,20 +210,28 @@
     };
 
 
-    var submitSession = function(){
+    var submitRatings = function(){
         window.onbeforeunload = null;
         // show dark backgorund and spinner
         var $bg = $('<div/>', { class: 'dark-background' }).appendTo($('body')).click(function(evt){ evt.stopPropagation(); });
         $('<span/>', { class: 'loading fa fa-circle-o-notch' }).appendTo($bg);
 
-        var filename = 'session_' + getTimestamp() + '_' + rs + '_' + userId + '.csv',
-            sessionData = getCsv(session);
+        // Summarize session
+        var sessionSummary = [{
+            start: session[0].start,
+            'start-pretty': session[0]['start-pretty'],
+            end: session[session.length-1].end,
+            'end-pretty': session[session.length-1]['end-pretty'],
+            'time-lapse': session.map(function(s){ return s['time-lapse'] }).reduce(function(t1, t2){ return t1+t2 }),
+            'tot-timeout': session.map(function(s){ return s['tot-timeout'] }).reduce(function(t1, t2){ return t1+t2 }),
+            'time-lapse-wbreaks': session.map(function(s){ return s['time-lapse-wbreaks'] }).reduce(function(t1, t2){ return t1+t2 }),
+            'tot-breaks': session.map(function(s){ return s['tot-breaks']  }).reduce(function(b1, b2){ return b1+b2 })
+        }];
 
-        // Submit session and redirect to 'finished' page
-        $.ajax({
-            method: 'POST',
-            url: host + 'save.php',
-            data: { filename: filename, content: sessionData }
+        var filenameSfx = getTimestamp() + '_' + rs + '_' + userId + '.csv';
+
+        // Submit ratings and redirect to 'finished' page
+        $.ajax({ method: 'POST', url: host + 'save.php', data: { filename: filenameSfx , ratings: getCsv(ratings), session: getCsv(session), session_summary: getCsv(sessionSummary) }
         }).done(function(response){
             console.log(response);
             window.location.href = 'finished.html';
@@ -229,7 +239,7 @@
             console.log('post failed');
             console.log(jqXHR);
             if(confirm('Session data could not be saved. Please download and send to cdisciascio@know-center.at')) {
-                $.generateFile({ filename: filename, content: sessionData, script: host+'download.php' });
+                $.generateFile({ filename: filename, content: ratingsData, script: host+'download.php' });
                 setTimeout(function(){
                     window.location.href = 'finished.html';
                 }, 500);
@@ -237,18 +247,29 @@
         });
     };
 
-    var addTaskToSession = function(){
+    var addCurrentRatings = function(){
 
+        // add curRatings to ratings array
         var docIDs = Object.keys(curRatings);
         for(var i=0, len=docIDs.length; i<len; ++i ) {
-            session.push($.extend(true, {}, conds[curCond], curRatings[docIDs[i]] ));
+            ratings.push($.extend(true, {}, conds[curCond], curRatings[docIDs[i]] ));
         }
         curRatings = {};
+        // Set end and time lapse of curSession and save to session array
+        curSession.end = $.now();
+        curSession['end-pretty'] = (new Date(curSession.end)).toString();
+        curSession['time-lapse'] = parseFloat(curSession.end - curSession.start);
+        curSession['tot-timeout'] = (curSession.breaks) ? curSession.breaks.map(function(b){ return b.timeout }).reduce(function(t1, t2){ return t1 + t2 }, 0.0) : 0.0;
+        curSession['time-lapse-wbreaks'] = curSession.breaks ? parseFloat(curSession['time-lapse'] - curSession['tot-timeout']) : curSession['time-lapse'];
+        curSession['tot-breaks'] = curSession.breaks ? curSession.breaks.length : 0
+        delete curSession.breaks;
+        session.push(curSession);
+        curSession = {};
 
         if(++curCond < conds.length)
             loadRecs(curCond);
         else
-            submitSession();
+            submitRatings();
     }
 
 
@@ -256,7 +277,7 @@
         evt.stopPropagation();
         if(Object.keys(curRatings).length < 5)
             return alert('Some documents are not rated yet!');
-        addTaskToSession();
+        addCurrentRatings();
     });
 
     $('.fa-trash').click(function(evt){
@@ -283,7 +304,40 @@
      *  UNCOMMENT FOR NORMAL WORKFLOW
      ****************************************/
     window.onbeforeunload = function(){
-        return 'The session is not finished';
+        return 'Session not finished!';
     };
+
+
+    // Set the name of the hidden property and the change event for visibility
+    var hidden, visibilityChange; 
+    if (typeof document.hidden !== "undefined") { // Opera 12.10 and Firefox 18 and later support 
+      hidden = "hidden";
+      visibilityChange = "visibilitychange";
+    } else if (typeof document.mozHidden !== "undefined") {
+      hidden = "mozHidden";
+      visibilityChange = "mozvisibilitychange";
+    } else if (typeof document.msHidden !== "undefined") {
+      hidden = "msHidden";
+      visibilityChange = "msvisibilitychange";
+    } else if (typeof document.webkitHidden !== "undefined") {
+      hidden = "webkitHidden";
+      visibilityChange = "webkitvisibilitychange";
+    }
+
+    var handleVisibilityChange = function() {
+      if (document[hidden]) {
+        if(!curSession.breaks) curSession.breaks = [];
+        curSession.breaks.push({ 'tmsp-out': $.now() });
+      } else {
+        var index = curSession.breaks.length-1;
+        curSession.breaks[index]['tmsp-back'] = $.now() ;
+        curSession.breaks[index].timeout = parseFloat(curSession.breaks[index]['tmsp-back'] - curSession.breaks[index]['tmsp-out']);
+      }
+    }
+
+    // Handle page visibility change   
+  document.addEventListener(visibilityChange, handleVisibilityChange, false);
+
+
 
 })(jQuery);
