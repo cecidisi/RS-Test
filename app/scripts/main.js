@@ -3,7 +3,6 @@
     'use strict';
 
     var host = (window.location.port === '9000') ? 'http://localhost/RS-Test/server/' : '../server/';
-    console.log(host);
     //var host = 'http://localhost/RS-Test/server/';
 
     var $list = $('#recs-list'),
@@ -23,7 +22,7 @@
     };
     var rs = window.sessionStorage.getItem('rs') || 'TU';
     var userId = window.sessionStorage.getItem('user-id') || 'no-user';
-    console.log('rs = ' + rs + '; user id = ' + userId);
+    //console.log('rs = ' + rs + '; user id = ' + userId);
     var conds = [], curCond = 0;
     var ratings = [], curRatings ={}, user = {}, timer;
     var session  = [], curSession = {};
@@ -178,6 +177,7 @@
 
         timer = $.now();
 
+        curSession['user-id'] = userId;
         curSession['task-num'] = condNum+1;
         curSession = $.extend(true, {}, cond);
         curSession.start = timer;
@@ -218,6 +218,7 @@
 
         // Summarize session
         var sessionSummary = [{
+            'user-id': userId,
             start: session[0].start,
             'start-pretty': session[0]['start-pretty'],
             end: session[session.length-1].end,
